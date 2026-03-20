@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit Email — Just Russel · 6 ans</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jr-green: #2D6A4F;
+    --jr-green-dark: #1B4332;
+    --jr-green-pale: #D8F3DC;
+    --jr-orange: #F4803A;
+    --jr-yellow: #FFD166;
+    --red: #E63946;
+    --red-pale: #FFF0F1;
+    --amber: #F4A261;
+    --amber-pale: #FFF8F0;
+    --green-ok: #40916C;
+    --green-pale: #D8F3DC;
+    --bg: #F8F9FA;
+    --white: #fff;
+    --dark: #1A1A1A;
+    --mid: #4A4A4A;
+    --light: #8A8A8A;
+    --border: #E5E7EB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    line-height: 1.6;
+  }
+
+  .wrapper { max-width: 920px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* HEADER */
+  .doc-header {
+    background: var(--jr-green-dark);
+    border-radius: 20px;
+    padding: 40px 48px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+  }
+
+  .doc-header::before {
+    content: '📧';
+    position: absolute;
+    right: 40px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 80px;
+    opacity: 0.15;
+  }
+
+  .doc-meta {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--jr-yellow);
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .doc-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .doc-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    max-width: 500px;
+  }
+
+  /* SCORE GLOBAL */
+  .score-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    border: 1.5px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .score-number {
+    font-family: 'Nunito', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    color: var(--amber);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .score-details { flex: 1; }
+
+  .score-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+
+  .score-verdict {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .score-pills { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+  .pill {
+    padding: 4px 14px;
+    border-radius: 100px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .pill-red { background: var(--red-pale); color: var(--red); }
+  .pill-amber { background: var(--amber-pale); color: #B45309; }
+  .pill-green { background: var(--green-pale); color: var(--green-ok); }
+
+  /* SECTION */
+  h2 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--jr-green-dark);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--jr-green-pale);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* CRITIQUE ITEM */
+  .critique {
+    background: white;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .critique-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 24px;
+    cursor: pointer;
+  }
+
+  .critique-header:hover { background: #FAFAFA; }
+
+  .status-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-red { background: var(--red); }
+  .dot-amber { background: var(--amber); }
+  .dot-green { background: var(--green-ok); }
+
+  .critique-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-family: 'Nunito', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .label-red { background: var(--red-pale); color: var(--red); }
+  .label-amber { background: var(--amber-pale); color: #B45309; }
+  .label-green { background: var(--green-pale); color: var(--green-ok); }
+
+  .critique-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    flex: 1;
+  }
+
+  .critique-body {
+    padding: 0 24px 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  .critique-note {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.75;
+    margin: 16px 0 14px;
+  }
+
+  /* AVANT/APRÈS */
+  .av-ap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 14px;
+  }
+
+  .av-block, .ap-block {
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .av-block {
+    background: var(--red-pale);
+    border: 1px solid rgba(230, 57, 70, 0.15);
+  }
+
+  .ap-block {
+    background: var(--green-pale);
+    border: 1px solid rgba(64, 145, 108, 0.2);
+  }
+
+  .av-label, .ap-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .av-label { color: var(--red); }
+  .ap-label { color: var(--green-ok); }
+
+  .av-text, .ap-text {
+    font-size: 13.5px;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .av-text { color: #7A2020; }
+  .ap-text { color: #1A4A30; }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: #FFFBEB;
+    border: 1px solid rgba(212, 168, 67, 0.3);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #7A5C00;
+    line-height: 1.65;
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .insight-icon { flex-shrink: 0; }
+
+  /* SÉQUENCE SUGGÉRÉE */
+  .sequence-block {
+    background: white;
+    border-radius: 16px;
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .seq-header {
+    background: var(--jr-green-dark);
+    padding: 16px 24px;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .seq-tag {
+    background: var(--jr-yellow);
+    color: var(--jr-green-dark);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-family: 'Nunito', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .seq-body { padding: 20px 24px; }
+
+  .seq-email {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .seq-email:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .seq-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--jr-green-pale);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--jr-green);
+    flex-shrink: 0;
+  }
+
+  .seq-content { flex: 1; }
+
+  .seq-timing {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--light);
+    margin-bottom: 4px;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .seq-subject {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .seq-desc {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.55;
+  }
+
+  .seq-goal {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--jr-green);
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  /* BILAN FINAL */
+  .bilan {
+    background: var(--jr-green-dark);
+    border-radius: 20px;
+    padding: 40px;
+    color: white;
+    margin-top: 40px;
+  }
+
+  .bilan h2 {
+    color: white;
+    border-bottom-color: rgba(255,255,255,0.15);
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .bilan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .bilan-item {
+    background: rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .bilan-item h4 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--jr-yellow);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .bilan-item p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .av-ap { grid-template-columns: 1fr; }
+    .bilan-grid { grid-template-columns: 1fr; }
+    .score-card { flex-direction: column; gap: 16px; }
+    .doc-header { padding: 32px 24px; }
+    .doc-header::before { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-meta">Audit Copywriting · Email reçu le 27 février 2026</div>
+    <div class="doc-title">Email "6 ans de Just Russel"<br>— Ce qui marche, ce qui manque</div>
+    <div class="doc-sub">Analyse complète + séquence email améliorée pour les événements promos, soldes et relances.</div>
+  </div>
+
+  <!-- SCORE GLOBAL -->
+  <div class="score-card">
+    <div class="score-number">5,5</div>
+    <div class="score-details">
+      <div class="score-title">Sur 10 — Email correct mais sous-exploité</div>
+      <div class="score-verdict">L'email existe, l'offre est réelle (40% + cadeau), la personnalisation est présente (prénom + noms des animaux). Mais le copywriting est générique, l'urgence est faible, et l'email ne capitalise pas sur les vrais leviers émotionnels de la relation maître-animal.</div>
+      <div class="score-pills">
+        <span class="pill pill-red">✗ Objet faible</span>
+        <span class="pill pill-red">✗ Copy trop commercial</span>
+        <span class="pill pill-amber">△ Personnalisation partielle</span>
+        <span class="pill pill-amber">△ Urgence présente mais floue</span>
+        <span class="pill pill-green">✓ Offre forte (40%)</span>
+        <span class="pill pill-green">✓ Klaviyo bien configuré</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SECTION 1 : CRITIQUE ====== -->
+  <h2>🔍 Analyse critique point par point</h2>
+
+  <!-- 1. OBJET -->
+  <div class="critique">
+    <div class="critique-header">
+      <div class="status-dot dot-red"></div>
+      <span class="critique-label label-red">❌ Problème majeur</span>
+      <div class="critique-title">Objet de l'email — Raté</div>
+    </div>
+    <div class="critique-body">
+      <div class="critique-note">
+        <strong>Objet reçu :</strong> "Offre exceptionnelle pour les 6 ans de Just Russel 😮"<br><br>
+        C'est l'objet le plus générique qui existe en email marketing. Le mot "offre exceptionnelle" déclenche les filtres anti-spam ET le mode "encore une promo" chez le lecteur. L'emoji 😮 est trop faible pour créer de la curiosité réelle. Le bénéfice concret (40% de réduction) n'est pas visible dans l'objet.
+      </div>
+      <div class="av-ap">
+        <div class="av-block">
+          <div class="av-label">✗ Objet actuel</div>
+          <div class="av-text">"Offre exceptionnelle pour les 6 ans de Just Russel 😮"</div>
+        </div>
+        <div class="ap-block">
+          <div class="ap-label">✓ Objet réécrit</div>
+          <div class="ap-text">"Hony, Garfield & Aria méritent -40% 🎂 (jusqu'au 28 fév.)"</div>
+        </div>
+      </div>
+      <div class="insight">
+        <span class="insight-icon">💡</span>
+        <span>Les prénoms des animaux dans l'objet = +23% de taux d'ouverture en moyenne (source : études Klaviyo 2024). Just Russel a les prénoms (ils les utilisent dans le corps de l'email). Ne pas les mettre dans l'objet, c'est laisser le levier le plus puissant sur la table.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. ACCROCHE -->
+  <div class="critique">
+    <div class="critique-header">
+      <div class="status-dot dot-amber"></div>
+      <span class="critique-label label-amber">△ À améliorer</span>
+      <div class="critique-title">Accroche — Trop institutionnelle</div>
+    </div>
+    <div class="critique-body">
+      <div class="critique-note">
+        L'email commence par "Just Russel souffle ses 6 bougies" — c'est une entrée centrée sur la marque, pas sur le lecteur. En copywriting, la règle d'or : on parle toujours de l'autre d'abord. L'anniversaire doit être le prétexte, pas le sujet.
+      </div>
+      <div class="av-ap">
+        <div class="av-block">
+          <div class="av-label">✗ Version actuelle</div>
+          <div class="av-text">"🎂 Just Russel souffle ses 6 bougies, et on veut fêter ça ! C'est pourquoi tu peux profiter de notre plus gros cadeau d'anniversaire jamais offert."</div>
+        </div>
+        <div class="ap-block">
+          <div class="ap-label">✓ Version réécrite</div>
+          <div class="ap-text">"Bonjour Gwennola,<br><br>Il y a 6 ans, quelqu'un a décidé que les chiens et les chats méritaient mieux que les croquettes du supermarché.<br><br>Aujourd'hui, Hony, Garfield et Aria en font partie. Et pour fêter ça, on vous offre notre plus grosse remise depuis le lancement."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. PERSONNALISATION -->
+  <div class="critique">
+    <div class="critique-header">
+      <div class="status-dot dot-amber"></div>
+      <span class="critique-label label-amber">△ À améliorer</span>
+      <div class="critique-title">Personnalisation — Bien mais mal utilisée</div>
+    </div>
+    <div class="critique-body">
+      <div class="critique-note">
+        Bonne nouvelle : Just Russel utilise Klaviyo et a les prénoms des 3 animaux (Hony, Garfield & Aria). C'est une personnalisation rare et puissante. Mauvaise nouvelle : ils la placent dans une liste à puces au milieu du corps — là où l'œil ne va pas d'abord. Elle doit être en tête d'email et dans l'objet.
+      </div>
+      <div class="insight">
+        <span class="insight-icon">🎯</span>
+        <span><strong>Ce qu'ils ont mais n'exploitent pas :</strong> le fait que Gwennola a 3 animaux est une opportunité de cross-sell énorme. "Hony, Garfield ET Aria" = 3 abonnements potentiels. Un email segmenté "famille multi-animaux" avec une offre bundle aurait un impact beaucoup plus fort qu'une promo générique.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. URGENCE -->
+  <div class="critique">
+    <div class="critique-header">
+      <div class="status-dot dot-amber"></div>
+      <span class="critique-label label-amber">△ À améliorer</span>
+      <div class="critique-title">Urgence — Présente mais enterrée</div>
+    </div>
+    <div class="critique-body">
+      <div class="critique-note">
+        La date limite "28 février" est mentionnée une seule fois, en fin d'email, sans mise en valeur visuelle. Pas de compte à rebours. Pas de répétition de l'urgence dans le CTA. L'email a été envoyé la veille de l'expiration (27 fév.) — c'est la bonne fenêtre, mais le copy ne crée pas assez de tension.
+      </div>
+      <div class="av-ap">
+        <div class="av-block">
+          <div class="av-label">✗ CTA actuel</div>
+          <div class="av-text">"Profite de 40% de réduction →"</div>
+        </div>
+        <div class="ap-block">
+          <div class="ap-label">✓ CTA réécrit</div>
+          <div class="ap-text">"Profiter des -40% avant ce soir minuit → (Offre expire le 28 fév.)"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CADEAU -->
+  <div class="critique">
+    <div class="critique-header">
+      <div class="status-dot dot-red"></div>
+      <span class="critique-label label-red">❌ Problème majeur</span>
+      <div class="critique-title">Le cadeau (émincés thon 19,95€) — Sous-vendu</div>
+    </div>
+    <div class="critique-body">
+      <div class="critique-note">
+        Un cadeau gratuit d'une valeur de 19,95€ est un levier de conversion très fort — mais ici il est présenté comme une liste à puces, au même niveau que le pourcentage de réduction. Il mérite sa propre ligne, sa propre mise en scène. Le chat reçoit du thon gratuit : c'est une image concrète et émotionnelle que le copy n'exploite pas.
+      </div>
+      <div class="av-ap">
+        <div class="av-block">
+          <div class="av-label">✗ Présentation actuelle</div>
+          <div class="av-text">"🤯 40% de réduction sur ta première commande<br>🎁 Émincés de thon en sauce GRATUITS d'une valeur de 19,95 €"</div>
+        </div>
+        <div class="ap-block">
+          <div class="ap-label">✓ Présentation réécrite</div>
+          <div class="ap-text">"Et parce que Garfield mérite de fêter ça aussi : une boîte d'émincés de thon en sauce (19,95€) offerte avec votre commande. Rien à faire — elle arrive avec votre colis."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. CE QUI MARCHE -->
+  <div class="critique">
+    <div class="critique-header">
+      <div class="status-dot dot-green"></div>
+      <span class="critique-label label-green">✓ Ce qui fonctionne</span>
+      <div class="critique-title">Points positifs à conserver</div>
+    </div>
+    <div class="critique-body">
+      <div class="critique-note">
+        <strong>✓ La signature "La patte, Louis de chez Just Russel"</strong> — humaine, mémorable, cohérente avec la marque. À conserver absolument.<br><br>
+        <strong>✓ Le compteur de repas livrés</strong> (42 027 033) — preuve sociale massive et dynamique. Excellent signal de confiance.<br><br>
+        <strong>✓ L'outil utilisé (Klaviyo)</strong> — c'est le bon outil pour faire de l'automatisation email performante. La segmentation et le tracking sont en place.<br><br>
+        <strong>✓ Le code promo dans le corps de l'email</strong> (6ANS-JR) — visible, copiable, mémorable.
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SECTION 2 : SÉQUENCE COMPLÈTE ====== -->
+  <h2 style="margin-top: 48px;">📧 Séquence email complète suggérée</h2>
+  <p style="font-size:15px; color:var(--mid); margin-bottom:28px; line-height:1.7;">Voici la séquence email que Just Russel devrait mettre en place via Klaviyo pour maximiser le CA tout au long de l'année.</p>
+
+  <!-- SÉQUENCE 1 : BIENVENUE -->
+  <div class="sequence-block">
+    <div class="seq-header">
+      🐾 Séquence 1 — Bienvenue & onboarding
+      <span class="seq-tag">Automatique</span>
+    </div>
+    <div class="seq-body">
+      <div class="seq-email">
+        <div class="seq-num">1</div>
+        <div class="seq-content">
+          <div class="seq-timing">Immédiat après inscription</div>
+          <div class="seq-subject">"Bienvenue ! Voici exactement ce qui va se passer"</div>
+          <div class="seq-desc">Explication claire du fonctionnement de l'abonnement. Mention explicite : alerte 7 jours avant chaque livraison, annulation possible à tout moment. Désamorce l'anxiété dès le départ.</div>
+          <div class="seq-goal">🎯 Réduire le churn précoce et les litiges SAV</div>
+        </div>
+      </div>
+      <div class="seq-email">
+        <div class="seq-num">2</div>
+        <div class="seq-content">
+          <div class="seq-timing">J+7 — Guide de transition</div>
+          <div class="seq-subject">"Comment faire la transition sans problème de digestion"</div>
+          <div class="seq-desc">Conseils vétérinaires sur la transition alimentaire sur 7-10 jours. Email éducatif qui justifie l'expertise de la marque et prévient les retours négatifs.</div>
+          <div class="seq-goal">🎯 Augmenter la satisfaction et prévenir les avis négatifs</div>
+        </div>
+      </div>
+      <div class="seq-email">
+        <div class="seq-num">3</div>
+        <div class="seq-content">
+          <div class="seq-timing">J+30 — Demande de témoignage</div>
+          <div class="seq-subject">"Un mois avec Just Russel — comment va [Prénom animal] ?"</div>
+          <div class="seq-desc">Email humain signé par Louis/Cyriel. Demande sincère de feedback. Lien vers Trustpilot si satisfait. Lien SAV si problème. Récolte de preuve sociale naturelle.</div>
+          <div class="seq-goal">🎯 Générer des avis Trustpilot + détecter les clients à risque de churn</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SÉQUENCE 2 : PROMO ÉVÉNEMENTIELLE -->
+  <div class="sequence-block">
+    <div class="seq-header">
+      🎉 Séquence 2 — Promos & événements
+      <span class="seq-tag">Calendrier</span>
+    </div>
+    <div class="seq-body">
+      <div class="seq-email">
+        <div class="seq-num">1</div>
+        <div class="seq-content">
+          <div class="seq-timing">J-5 avant la promo</div>
+          <div class="seq-subject">"[Prénom animal] va recevoir quelque chose de spécial dans 5 jours 🐾"</div>
+          <div class="seq-desc">Teaser sans révéler l'offre. Crée de l'anticipation. Ne pas mentionner le % de réduction — seulement que "quelque chose arrive". Jouer sur la curiosité.</div>
+          <div class="seq-goal">🎯 Préparer l'ouverture de l'email promo principal</div>
+        </div>
+      </div>
+      <div class="seq-email">
+        <div class="seq-num">2</div>
+        <div class="seq-content">
+          <div class="seq-timing">Jour J — Lancement promo</div>
+          <div class="seq-subject">"[Prénom animal], [Prénom animal 2] — votre cadeau est là 🎁 (-40% · expire vendredi)"</div>
+          <div class="seq-desc">Email principal avec les prénoms des animaux dans l'objet. Offre claire dès la 1ère ligne. Cadeau présenté avec une image émotionnelle ("Garfield va adorer son thon"). CTA avec date limite visible.</div>
+          <div class="seq-goal">🎯 Maximiser le taux de conversion à l'ouverture</div>
+        </div>
+      </div>
+      <div class="seq-email">
+        <div class="seq-num">3</div>
+        <div class="seq-content">
+          <div class="seq-timing">J+2 — Relance non-cliqueurs uniquement</div>
+          <div class="seq-subject">"Il reste 48h — et [Prénom animal] attend toujours 🐾"</div>
+          <div class="seq-desc">Email court. Rappel de l'offre + compte à rebours. Ne pas envoyer à ceux qui ont déjà cliqué (segmentation Klaviyo). Version texte seule, plus personnelle.</div>
+          <div class="seq-goal">🎯 Récupérer les 60-70% qui n'ont pas cliqué la première fois</div>
+        </div>
+      </div>
+      <div class="seq-email">
+        <div class="seq-num">4</div>
+        <div class="seq-content">
+          <div class="seq-timing">Dernier jour — Urgence finale</div>
+          <div class="seq-subject">"Dernier jour ⏰ — après minuit, l'offre disparaît"</div>
+          <div class="seq-desc">Email très court (3-4 lignes max). Urgence réelle. Rappel du bénéfice principal uniquement. Un seul lien, un seul CTA.</div>
+          <div class="seq-goal">🎯 Convertir les derniers indécis — la dernière relance convertit souvent autant que le lancement</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SÉQUENCE 3 : RÉTENTION -->
+  <div class="sequence-block">
+    <div class="seq-header">
+      🔄 Séquence 3 — Rétention & fidélité
+      <span class="seq-tag">Automatique</span>
+    </div>
+    <div class="seq-body">
+      <div class="seq-email">
+        <div class="seq-num">1</div>
+        <div class="seq-content">
+          <div class="seq-timing">7 jours avant chaque renouvellement</div>
+          <div class="seq-subject">"Prochaine livraison de [Prénom animal] dans 7 jours — tout va bien ?"</div>
+          <div class="seq-desc">Rappel proactif du renouvellement. Lien direct pour modifier/reporter/annuler. Reformulé comme un service, pas comme une menace.</div>
+          <div class="seq-goal">🎯 Réduire les litiges "prélèvement non consenti" — principale source d'avis négatifs</div>
+        </div>
+      </div>
+      <div class="seq-email">
+        <div class="seq-num">2</div>
+        <div class="seq-content">
+          <div class="seq-timing">Quand un client est inactif 60 jours</div>
+          <div class="seq-subject">"[Prénom animal] nous manque 🐾 — que s'est-il passé ?"</div>
+          <div class="seq-desc">Email de win-back humain. Pas de promo agressive. Juste une vraie question : "Est-ce qu'on peut faire mieux ?". Option : réactivation avec un bon de réduction si l'abonnement est en pause.</div>
+          <div class="seq-goal">🎯 Récupérer 15-20% des clients dormants avant qu'ils partent définitivement</div>
+        </div>
+      </div>
+      <div class="seq-email">
+        <div class="seq-num">3</div>
+        <div class="seq-content">
+          <div class="seq-timing">Anniversaire de l'animal (si données disponibles)</div>
+          <div class="seq-subject">"Joyeux anniversaire à [Prénom animal] 🎂 — un cadeau vous attend"</div>
+          <div class="seq-desc">Email ultra-personnalisé autour de la date d'anniversaire de l'animal (donnée récoltable dans le questionnaire). Petit cadeau ou réduction sur un complément alimentaire. Émotion maximale.</div>
+          <div class="seq-goal">🎯 Renforcer l'attachement émotionnel à la marque — email à fort potentiel viral (partage sur réseaux)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BILAN FINAL -->
+  <div class="bilan">
+    <h2>📋 Résumé de l'audit & ce que vous leur proposez</h2>
+    <p style="font-size:14px; color:rgba(255,255,255,0.65); line-height:1.7; margin-bottom:8px;">
+      Just Russel a une base Klaviyo opérationnelle, une vraie donnée client (prénoms des animaux), et une offre commerciale solide. Ce qui manque, c'est le copywriting stratégique pour transformer ces ressources en performance.
+    </p>
+    <div class="bilan-grid">
+      <div class="bilan-item">
+        <h4>Ce qu'ils ont déjà</h4>
+        <p>Klaviyo configuré · Segmentation de base · Personnalisation partielle · Offres promos régulières · Bonne fréquence d'envoi</p>
+      </div>
+      <div class="bilan-item">
+        <h4>Ce qu'ils n'ont pas</h4>
+        <p>Objets optimisés avec prénoms animaux · Séquence bienvenue transparent · Relances segmentées · Win-back automatique · Email anniversaire animal</p>
+      </div>
+      <div class="bilan-item">
+        <h4>Votre proposition de valeur</h4>
+        <p>Audit complet + réécriture des séquences existantes + création des séquences manquantes + intégration dans Klaviyo. Tout ça avec une expertise pet industry que peu de copywriters ont.</p>
+      </div>
+      <div class="bilan-item">
+        <h4>Impact estimé sur le CA</h4>
+        <p>+20-35% sur les emails promos (objet + copy) · -30% de litiges SAV (séquence onboarding) · +15% de rétention (win-back + anniversaire animal)</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
